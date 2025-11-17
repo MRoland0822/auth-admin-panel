@@ -19,4 +19,13 @@ export class AppController {
       environment: process.env.NODE_ENV || 'development',
     };
   }
+
+  @Get('api/info')
+  getInfo(): object {
+    return {
+      name: 'Auth Admin Panel API',
+      version: '1.0.0',
+      description: 'Backend API for authentication and user management',
+    };
+  }
 }
