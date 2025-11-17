@@ -1,0 +1,6 @@
+### Test Health Endpoint
+GET http://localhost:3001/health
+
+### Test with headers
+GET http://localhost:3001
+Content-Type: application/json
