@@ -7,3 +7,39 @@ Content-Type: application/json
 
  ### Get API Info
 GET http://localhost:3001/api/info
+
+### Register a new user
+POST http://localhost:3001/auth/register
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123",
+  "firstName": "John",
+  "lastName": "Doe"
+}
+
+### Login
+POST http://localhost:3001/auth/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+### Refresh Token (replace with actual refresh token from login)
+POST http://localhost:3001/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNmRiNjY0Ny05ZDQ4LTRjMDUtYTE0Zi01ZGVkNmVkNjJhM2YiLCJlbWFpbCI6ImpvaG5AZXhhbXBsZS5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc2MzkxNjM4MywiZXhwIjoxNzY0NTIxMTgzfQ.O8hjxBc9hALcS2M12bRzoYVAR0A6ScCbNpCKMxRp25M"
+}
+
+### Logout (replace with actual refresh token)
+POST http://localhost:3001/auth/logout
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNmRiNjY0Ny05ZDQ4LTRjMDUtYTE0Zi01ZGVkNmVkNjJhM2YiLCJlbWFpbCI6ImpvaG5AZXhhbXBsZS5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc2MzkxNjM4MywiZXhwIjoxNzY0NTIxMTgzfQ.O8hjxBc9hALcS2M12bRzoYVAR0A6ScCbNpCKMxRp25M"
+}
