@@ -4,7 +4,9 @@ import {
   MinLength,
   MaxLength,
   IsOptional,
+  IsIn,
 } from 'class-validator';
+import { Role } from '@prisma/client';
 
 export class RegisterDto {
   @IsEmail({}, { message: 'Please provide a valid email address' })
@@ -24,4 +26,9 @@ export class RegisterDto {
   @IsOptional()
   @MaxLength(50)
   lastName?: string;
+
+  @IsString()
+  @IsOptional()
+  @IsIn(['USER', 'ADMIN'], { message: 'Role must be either USER or ADMIN' })
+  role?: Role;
 }

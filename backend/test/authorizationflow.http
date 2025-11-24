@@ -1,0 +1,16 @@
+### 1. Login as regular user
+POST http://localhost:3001/auth/login
+Content-Type: application/json
+
+{
+  "email": "alice@example.com",
+  "password": "password123"
+}
+
+### 2. Access protected route (should work)
+GET http://localhost:3001/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NmVhNTM1OC00MDJkLTQ5OGUtODg3Mi1iOGI1OTM0ZjAyODEiLCJlbWFpbCI6ImFsaWNlQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NjQwMTgwNjQsImV4cCI6MTc2NDAxODk2NH0.qJt6gKCqNgna3JR5GMFq1Go9O0DssSd8Vlx_bGFP8m8
+
+### 3. Try to access admin route (should fail)
+GET http://localhost:3001/auth/admin-only
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NmVhNTM1OC00MDJkLTQ5OGUtODg3Mi1iOGI1OTM0ZjAyODEiLCJlbWFpbCI6ImFsaWNlQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NjQwMTgwNjQsImV4cCI6MTc2NDAxODk2NH0.qJt6gKCqNgna3JR5GMFq1Go9O0DssSd8Vlx_bGFP8m8

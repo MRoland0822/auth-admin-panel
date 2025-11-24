@@ -13,10 +13,10 @@ POST http://localhost:3001/auth/register
 Content-Type: application/json
 
 {
-  "email": "john@example.com",
+  "email": "alice@example.com",
   "password": "password123",
-  "firstName": "John",
-  "lastName": "Doe"
+  "firstName": "Alice",
+  "lastName": "Smith"
 }
 
 ### Login
@@ -24,9 +24,21 @@ POST http://localhost:3001/auth/login
 Content-Type: application/json
 
 {
-  "email": "john@example.com",
+  "email": "alice@example.com",
   "password": "password123"
 }
+
+###  Get current user profile
+GET http://localhost:3001/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NmVhNTM1OC00MDJkLTQ5OGUtODg3Mi1iOGI1OTM0ZjAyODEiLCJlbWFpbCI6ImFsaWNlQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NjQwMTU5NjcsImV4cCI6MTc2NDAxNjg2N30.rdBAxsBc5XWihzhuaK6P6ybZ1j8jepyoMyuFErZn4iE
+
+### Test without token (should return 401 Unauthorized)
+GET http://localhost:3001/auth/me
+
+### Test admin route with USER role (should fail with 403 Forbidden)
+GET http://localhost:3001/auth/admin-only
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NmVhNTM1OC00MDJkLTQ5OGUtODg3Mi1iOGI1OTM0ZjAyODEiLCJlbWFpbCI6ImFsaWNlQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NjQwMTU5NjcsImV4cCI6MTc2NDAxNjg2N30.rdBAxsBc5XWihzhuaK6P6ybZ1j8jepyoMyuFErZn4iE
+
 
 ### Refresh Token (replace with actual refresh token from login)
 POST http://localhost:3001/auth/refresh
@@ -36,10 +48,38 @@ Content-Type: application/json
   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNmRiNjY0Ny05ZDQ4LTRjMDUtYTE0Zi01ZGVkNmVkNjJhM2YiLCJlbWFpbCI6ImpvaG5AZXhhbXBsZS5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc2MzkxNjM4MywiZXhwIjoxNzY0NTIxMTgzfQ.O8hjxBc9hALcS2M12bRzoYVAR0A6ScCbNpCKMxRp25M"
 }
 
+### Login as admin
+POST http://localhost:3001/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "admin123456"
+}
+
+###
+
+### Access admin route with ADMIN token (should succeed)
+GET http://localhost:3001/auth/admin-only
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5NzY2NWI3ZC1lNTk3LTQzNGQtOGI2Zi1iMGYzMjAwYTZlMTYiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzY0MDE3ODY4LCJleHAiOjE3NjQwMTg3Njh9.J_bYysKecGr-ulEXb6q7-P84DHIuILr96EqRUtTsr9M
+
+
 ### Logout (replace with actual refresh token)
 POST http://localhost:3001/auth/logout
 Content-Type: application/json
 
 {
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNmRiNjY0Ny05ZDQ4LTRjMDUtYTE0Zi01ZGVkNmVkNjJhM2YiLCJlbWFpbCI6ImpvaG5AZXhhbXBsZS5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc2MzkxNjM4MywiZXhwIjoxNzY0NTIxMTgzfQ.O8hjxBc9hALcS2M12bRzoYVAR0A6ScCbNpCKMxRp25M"
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NmVhNTM1OC00MDJkLTQ5OGUtODg3Mi1iOGI1OTM0ZjAyODEiLCJlbWFpbCI6ImFsaWNlQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NjQwMTU5NjcsImV4cCI6MTc2NDAxNjg2N30.rdBAxsBc5XWihzhuaK6P6ybZ1j8jepyoMyuFErZn4iE"
+}
+
+### Register an admin user
+POST http://localhost:3001/auth/register
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "admin123456",
+  "firstName": "Admin",
+  "lastName": "User",
+  "role": "ADMIN"
 }
