@@ -10,6 +10,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -41,7 +42,7 @@ export class AuthService {
         password: hashedPassword,
         firstName,
         lastName,
-        role: 'USER', // Default role
+        role: registerDto.role || Role.USER, // Default role
       },
     });
 
