@@ -1,0 +1,63 @@
+### Login as admin (get token first)
+POST http://localhost:3001/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "admin123456"
+}
+
+###
+
+### 1. Get all users (paginated)
+GET http://localhost:3001/users?page=1&limit=10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5NzY2NWI3ZC1lNTk3LTQzNGQtOGI2Zi1iMGYzMjAwYTZlMTYiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzY0MDk0MzYzLCJleHAiOjE3NjQwOTUyNjN9.36K8i81RQpX9KD0BgO4NYgmZBi8K3zsvCDrc5EyEioY
+
+###
+
+### 2. Get single user by ID
+GET http://localhost:3001/users/56ea5358-402d-498e-8872-b8b5934f0281
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5NzY2NWI3ZC1lNTk3LTQzNGQtOGI2Zi1iMGYzMjAwYTZlMTYiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzY0MDk0MzYzLCJleHAiOjE3NjQwOTUyNjN9.36K8i81RQpX9KD0BgO4NYgmZBi8K3zsvCDrc5EyEioY
+
+###
+
+### 3. Create new user
+POST http://localhost:3001/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5NzY2NWI3ZC1lNTk3LTQzNGQtOGI2Zi1iMGYzMjAwYTZlMTYiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzY0MDk0MzYzLCJleHAiOjE3NjQwOTUyNjN9.36K8i81RQpX9KD0BgO4NYgmZBi8K3zsvCDrc5EyEioY
+Content-Type: application/json
+
+{
+  "email": "newuser@example.com",
+  "password": "password123",
+  "firstName": "New",
+  "lastName": "User",
+  "role": "USER",
+  "isActive": true
+}
+
+###
+
+### 4. Update user
+PATCH http://localhost:3001/users/ba03fb75-a218-4413-a8fe-c810acd2787e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5NzY2NWI3ZC1lNTk3LTQzNGQtOGI2Zi1iMGYzMjAwYTZlMTYiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzY0MDk0MzYzLCJleHAiOjE3NjQwOTUyNjN9.36K8i81RQpX9KD0BgO4NYgmZBi8K3zsvCDrc5EyEioY
+Content-Type: application/json
+
+{
+  "firstName": "Updated",
+  "lastName": "Name",
+  "isActive": false
+}
+
+###
+
+### 5. Delete user
+DELETE http://localhost:3001/users/ba03fb75-a218-4413-a8fe-c810acd2787e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5NzY2NWI3ZC1lNTk3LTQzNGQtOGI2Zi1iMGYzMjAwYTZlMTYiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzY0MDk0MzYzLCJleHAiOjE3NjQwOTUyNjN9.36K8i81RQpX9KD0BgO4NYgmZBi8K3zsvCDrc5EyEioY
+
+###
+
+### 6. Try to access as regular user (should fail with 403)
+GET http://localhost:3001/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NmVhNTM1OC00MDJkLTQ5OGUtODg3Mi1iOGI1OTM0ZjAyODEiLCJlbWFpbCI6ImFsaWNlQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NjQwOTUyNDgsImV4cCI6MTc2NDA5NjE0OH0.6IjatZ6Vd8KYXTCfbVMF-8QBmCsh_ObBra8kBA9yxuc
+
+###
