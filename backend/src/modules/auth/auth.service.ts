@@ -11,6 +11,7 @@ import { AuthResponseDto } from './dto/auth-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { Role } from '@prisma/client';
+import { AuditService } from '../audit/audit.service';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +19,7 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private auditService: AuditService,
   ) {}
 
   async register(registerDto: RegisterDto): Promise<AuthResponseDto> {
@@ -103,6 +105,12 @@ export class AuthService {
     // Save refresh token
     await this.saveRefreshToken(user.id, refreshToken);
 
+    await this.auditService.createLog({
+      action: 'USER_LOGIN',
+      userId: user.id,
+      details: { email: user.email },
+    });
+
     return {
       accessToken,
       refreshToken,
@@ -156,10 +164,22 @@ export class AuthService {
   }
 
   async logout(refreshToken: string): Promise<{ message: string }> {
+    const tokenRecord = await this.prisma.refreshToken.findUnique({
+      where: { token: refreshToken },
+      include: { user: true },
+    });
     // Delete refresh token from database
     await this.prisma.refreshToken.deleteMany({
       where: { token: refreshToken },
     });
+
+    if (tokenRecord) {
+      await this.auditService.createLog({
+        action: 'USER_LOGOUT',
+        userId: tokenRecord.userId,
+        details: { email: tokenRecord.user.email },
+      });
+    }
 
     return { message: 'Logged out successfully' };
   }
