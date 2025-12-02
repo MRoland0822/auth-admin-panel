@@ -8,7 +8,6 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { authService } from '@/lib/auth-service';
 import { useAuthStore } from '@/lib/auth-store';
-import { AxiosError } from 'axios';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -59,10 +58,10 @@ export default function LoginPage() {
       } else {
         router.push('/dashboard');
       }
-    }  catch (error: unknown) {
-        const err = error as AxiosError<{ message?: string }>;
-        const message = err.response?.data?.message || 'Registration failed';
-        toast.error(message);
+    }   catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } } };
+      const message = err.response?.data?.message || 'Login failed';
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
