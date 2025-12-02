@@ -10,10 +10,14 @@ import { QueryUsersDto } from './dto/query-users.dto';
 import { UserResponseDto } from './dto/user-response.dto';
 import { Role } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { AuditService } from '../audit/audit.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private auditService: AuditService,
+  ) {}
 
   async findAll(query: QueryUsersDto): Promise<{
     users: UserResponseDto[];
@@ -119,6 +123,16 @@ export class UsersService {
       },
     });
 
+    await this.auditService.createLog({
+      action: 'USER_CREATED',
+      userId: user.id,
+      details: {
+        email: user.email,
+        role: user.role,
+        createdBy: 'admin',
+      },
+    });
+
     return user;
   }
 
@@ -187,6 +201,16 @@ export class UsersService {
       },
     });
 
+    await this.auditService.createLog({
+      action: 'USER_UPDATED',
+      userId: user.id,
+      details: {
+        email: user.email,
+        changes: updateData,
+        updatedBy: 'admin',
+      },
+    });
+
     return user;
   }
 
@@ -199,6 +223,15 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
+
+    await this.auditService.createLog({
+      action: 'USER_DELETED',
+      userId: user.id,
+      details: {
+        email: user.email,
+        updatedBy: 'admin',
+      },
+    });
 
     // Delete user (cascade will delete refresh tokens)
     await this.prisma.user.delete({
