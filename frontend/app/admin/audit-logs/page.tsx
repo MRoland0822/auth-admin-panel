@@ -8,6 +8,7 @@ import { AuditLogTable } from '@/components/audit/AuditLogTable';
 import { Pagination } from '@/components/ui/Pagination';
 import { auditService, AuditLog } from '@/lib/audit-service';
 import { getErrorMessage } from '@/types/error';
+import { TableSkeleton } from '@/components/ui/Skeleton';
 
 export default function AuditLogsPage() {
   const [logs, setLogs] = useState<AuditLog[]>([]);
@@ -75,12 +76,7 @@ export default function AuditLogsPage() {
           </div>
 
           {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="mt-4 text-gray-600">Loading audit logs...</p>
-              </div>
-            </div>
+            <TableSkeleton />
           ) : logs.length === 0 ? (
             <div className="bg-white rounded-lg shadow p-12 text-center">
               <svg
