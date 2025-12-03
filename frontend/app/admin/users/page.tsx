@@ -9,6 +9,7 @@ import { UserFormModal, UserFormData } from '@/components/users/UserFormModal';
 import { Pagination } from '@/components/ui/Pagination';
 import { userService, User } from '@/lib/user-service';
 import { getErrorMessage } from '@/types/error';
+import { TableSkeleton } from '@/components/ui/Skeleton';
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -154,12 +155,7 @@ export default function AdminUsersPage() {
           </div>
 
           {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="mt-4 text-gray-600">Loading users...</p>
-              </div>
-            </div>
+           <TableSkeleton />
           ) : users.length === 0 ? (
             <div className="bg-white rounded-lg shadow p-12 text-center">
               <svg

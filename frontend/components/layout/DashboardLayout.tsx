@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
 import { toast } from 'react-hot-toast';
@@ -13,6 +13,7 @@ interface DashboardLayoutProps {
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const router = useRouter();
   const { user, logout, refreshToken } = useAuthStore();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     try {
@@ -45,7 +46,11 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           <nav className="flex-1 px-4 py-6 space-y-2">
             <Link
               href="/dashboard"
-              className="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition"
+              className={`flex items-center px-4 py-3 rounded-lg transition ${
+              pathname === '/dashboard'
+                ? 'bg-blue-50 text-blue-600 font-medium'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
             >
               <svg
                 className="w-5 h-5 mr-3"
@@ -63,11 +68,39 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
               Dashboard
             </Link>
 
+            <Link
+              href="/profile"
+              className={`flex items-center px-4 py-3 rounded-lg transition ${
+              pathname === '/profile'
+                ? 'bg-blue-50 text-blue-600 font-medium'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+            >
+              <svg
+                className="w-5 h-5 mr-3"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"                
+                  />
+              </svg>
+              Profile
+            </Link>
+
             {isAdmin && (
             <>
               <Link
                 href="/admin/users"
-                className="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition"
+                className={`flex items-center px-4 py-3 rounded-lg transition ${
+                pathname === '/admin/users'
+                  ? 'bg-blue-50 text-blue-600 font-medium'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
               >
                 <svg
                   className="w-5 h-5 mr-3"
@@ -87,7 +120,11 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
 
               <Link
                 href="/admin/audit-logs"
-                className="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition"
+                className={`flex items-center px-4 py-3 rounded-lg transition ${
+                pathname === '/admin/audit-logs'
+                  ? 'bg-blue-50 text-blue-600 font-medium'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
               >
                 <svg
                   className="w-5 h-5 mr-3"
