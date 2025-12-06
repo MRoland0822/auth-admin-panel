@@ -6,20 +6,22 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input: React.FC<InputProps> = ({ label, error, ...props }) => {
+  const id = props.id || props.name;
+  
   return (
     <div className="mb-4">
-      <label className="block text-sm font-semibold text-gray-800 mb-2">
+      <label htmlFor={id} className="block text-sm font-semibold text-gray-800 mb-2">
         {label}
       </label>
       <input
-        {...props}
-        className={`w-full px-4 py-3 border-2 rounded-lg 
-          focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+        id={id}
+        className={`w-full px-4 py-3 border-2 rounded-lg
+          focus:ring-2 focus:ring-blue-500 focus:border-blue-500
           outline-none transition-all duration-200
           text-gray-900 bg-white placeholder-gray-400
           hover:border-gray-400
-          ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300'}
-        `}
+          ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300'}`}
+        {...props}
       />
       {error && (
         <p className="mt-2 text-sm text-red-600 flex items-center">
