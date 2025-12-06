@@ -23,19 +23,19 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // Enable global validation
+  // Global validation
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Strip properties that don't have decorators
-      forbidNonWhitelisted: true, // Throw error if non-whitelisted properties exist
-      transform: true, // Automatically transform payloads to DTO instances
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
     }),
   );
 
-  // Use PORT from .env or default to 3001
+  // Railway requires listening on 0.0.0.0
   const port = process.env.PORT || 3001;
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
 
-  console.log(`🚀 Application is running on: http://localhost:${port}`);
+  console.log(`🚀 Application is running on port: ${port}`);
 }
 bootstrap();
